@@ -1,0 +1,51 @@
+{
+  "name": "test-task",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Ismat Alakbarov <isalak@ttu.ee>",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "build:watch": "webpack --config webpack.config.js --watch",
+    "start": "webpack-dev-server --open --config webpack.config.js",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "babel-eslint": "^10.1.0",
+    "classnames": "^2.2.6",
+    "eslint": "^7.16.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-redux": "^3.3.1",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.1",
+    "react-dom": "^16.9.0",
+    "react-swipeable": "^6.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-react-constant-elements": "^7.6.0",
+    "@babel/plugin-transform-react-inline-elements": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.6.0",
+    "@svgr/webpack": "^4.3.2",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "css-loader": "^3.2.0",
+    "file-loader": "^4.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
+    "style-loader": "^1.0.0",
+    "terser-webpack-plugin": "^2.1.0",
+    "url-loader": "^2.1.0",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.1"
+  }
+}

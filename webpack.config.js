@@ -1,82 +1,84 @@
-const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const webpack = require("webpack");
-const TerserWebpackPlugin = require("terser-webpack-plugin");
-const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+import {resolve as _resolve} from 'path';
+import MiniCssExtractPlugin, {loader as _loader} from 'mini-css-extract-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import {DefinePlugin} from 'webpack';
+import TerserWebpackPlugin from 'terser-webpack-plugin';
+import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 
-module.exports = function(_env, argv) {
-  const isProduction = argv.mode === "production";
+export default function(_env, argv) {
+  const isProduction = argv.mode === 'production';
   const isDevelopment = !isProduction;
 
   return {
-    devtool: isDevelopment && "cheap-module-source-map",
-    entry: "./src/index.js",
+    devtool: isDevelopment && 'cheap-module-source-map',
+    entry: './src/index.js',
     output: {
-      path: path.resolve(__dirname, "dist"),
-      filename: "assets/js/[name].[contenthash:8].js",
-      publicPath: "/"
+      // eslint-disable-next-line no-undef
+      path: _resolve(__dirname, 'dist'),
+      filename: 'assets/js/[name].[contenthash:8].js',
+      publicPath: '/'
     },
     module: {
       rules: [
         {
           test: /\.jsx?$/,
           exclude: /node_modules/,
-          use: {
-            loader: "babel-loader",
+          use: [{
+            loader: 'babel-loader',
             options: {
               cacheDirectory: true,
               cacheCompression: false,
-              envName: isProduction ? "production" : "development"
+              envName: isProduction ? 'production' : 'development'
             }
-          }
+          }, 'eslint-loader']
         },
         {
           test: /\.css$/,
           use: [
-            isProduction ? MiniCssExtractPlugin.loader : "style-loader",
-            "css-loader"
+            isProduction ? _loader : 'style-loader',
+            'css-loader'
           ]
         },
         {
           test: /\.(png|jpg|gif)$/i,
           use: {
-            loader: "url-loader",
+            loader: 'url-loader',
             options: {
               limit: 8192,
-              name: "static/media/[name].[hash:8].[ext]"
+              name: 'static/media/[name].[hash:8].[ext]'
             }
           }
         },
         {
           test: /\.svg$/,
-          use: ["@svgr/webpack"]
+          use: ['@svgr/webpack']
         },
         {
           test: /\.(eot|otf|ttf|woff|woff2)$/,
-          loader: require.resolve("file-loader"),
+          use: 'file-loader',
           options: {
-            name: "static/media/[name].[hash:8].[ext]"
+            name: 'static/media/[name].[hash:8].[ext]'
           }
         }
       ]
     },
     resolve: {
-      extensions: [".js", ".jsx"]
+      extensions: ['.js', '.jsx']
     },
     plugins: [
       isProduction &&
-        new MiniCssExtractPlugin({
-          filename: "assets/css/[name].[contenthash:8].css",
-          chunkFilename: "assets/css/[name].[contenthash:8].chunk.css"
-        }),
+      new MiniCssExtractPlugin({
+        filename: 'assets/css/[name].[contenthash:8].css',
+        chunkFilename: 'assets/css/[name].[contenthash:8].chunk.css'
+      }),
       new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, "public/index.html"),
+        // eslint-disable-next-line no-undef
+        template: _resolve(__dirname, 'public/index.html'),
         inject: true
       }),
-      new webpack.DefinePlugin({
-        "process.env.NODE_ENV": JSON.stringify(
-          isProduction ? "production" : "development"
+      new DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(
+          isProduction ? 'production' : 'development'
         )
       })
     ].filter(Boolean),
@@ -101,7 +103,7 @@ module.exports = function(_env, argv) {
         new OptimizeCssAssetsPlugin()
       ],
       splitChunks: {
-        chunks: "all",
+        chunks: 'all',
         minSize: 0,
         maxInitialRequests: 10,
         maxAsyncRequests: 10,
@@ -112,7 +114,7 @@ module.exports = function(_env, argv) {
               const packageName = module.context.match(
                 /[\\/]node_modules[\\/](.*?)([\\/]|$)/
               )[1];
-              return `${cacheGroupKey}.${packageName.replace("@", "")}`;
+              return `${cacheGroupKey}.${packageName.replace('@', '')}`;
             }
           },
           common: {
@@ -121,7 +123,7 @@ module.exports = function(_env, argv) {
           }
         }
       },
-      runtimeChunk: "single"
+      runtimeChunk: 'single'
     },
     devServer: {
       compress: true,
@@ -130,4 +132,4 @@ module.exports = function(_env, argv) {
       overlay: true
     }
   };
-};
+}

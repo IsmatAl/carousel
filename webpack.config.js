@@ -1,11 +1,11 @@
-import {resolve as _resolve} from 'path';
-import MiniCssExtractPlugin, {loader as _loader} from 'mini-css-extract-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import {DefinePlugin} from 'webpack';
-import TerserWebpackPlugin from 'terser-webpack-plugin';
-import OptimizeCssAssetsPlugin from 'optimize-css-assets-webpack-plugin';
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-export default function(_env, argv) {
+module.exports = function(_env, argv) {
   const isProduction = argv.mode === 'production';
   const isDevelopment = !isProduction;
 
@@ -13,8 +13,7 @@ export default function(_env, argv) {
     devtool: isDevelopment && 'cheap-module-source-map',
     entry: './src/index.js',
     output: {
-      // eslint-disable-next-line no-undef
-      path: _resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, 'dist'),
       filename: 'assets/js/[name].[contenthash:8].js',
       publicPath: '/'
     },
@@ -23,19 +22,19 @@ export default function(_env, argv) {
         {
           test: /\.jsx?$/,
           exclude: /node_modules/,
-          use: [{
+          use: {
             loader: 'babel-loader',
             options: {
               cacheDirectory: true,
               cacheCompression: false,
               envName: isProduction ? 'production' : 'development'
             }
-          }, 'eslint-loader']
+          }
         },
         {
           test: /\.css$/,
           use: [
-            isProduction ? _loader : 'style-loader',
+            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
             'css-loader'
           ]
         },
@@ -55,7 +54,7 @@ export default function(_env, argv) {
         },
         {
           test: /\.(eot|otf|ttf|woff|woff2)$/,
-          use: 'file-loader',
+          loader: require.resolve('file-loader'),
           options: {
             name: 'static/media/[name].[hash:8].[ext]'
           }
@@ -67,16 +66,15 @@ export default function(_env, argv) {
     },
     plugins: [
       isProduction &&
-      new MiniCssExtractPlugin({
-        filename: 'assets/css/[name].[contenthash:8].css',
-        chunkFilename: 'assets/css/[name].[contenthash:8].chunk.css'
-      }),
+        new MiniCssExtractPlugin({
+          filename: 'assets/css/[name].[contenthash:8].css',
+          chunkFilename: 'assets/css/[name].[contenthash:8].chunk.css'
+        }),
       new HtmlWebpackPlugin({
-        // eslint-disable-next-line no-undef
-        template: _resolve(__dirname, 'public/index.html'),
+        template: path.resolve(__dirname, 'public/index.html'),
         inject: true
       }),
-      new DefinePlugin({
+      new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(
           isProduction ? 'production' : 'development'
         )
@@ -132,4 +130,4 @@ export default function(_env, argv) {
       overlay: true
     }
   };
-}
+};

@@ -31,15 +31,6 @@ const Carousel = (props) => {
 
   const handleNavClick = async (idx) => {
     const activeIdx = (numOfCarouselItems - totalNumOfClicks % numOfCarouselItems) % numOfCarouselItems;
-    const diff = activeIdx - idx;
-    for (let i = 0; i < Math.abs(); i++) {
-      if (diff < 0) {
-        await setTotalNumOfClicks((prevTotalNumOfClicks) => prevTotalNumOfClicks - 1);
-      } else {
-        await setTotalNumOfClicks((prevTotalNumOfClicks) => prevTotalNumOfClicks + 1);
-      }
-    }
-
     setTotalNumOfClicks(totalNumOfClicks + (activeIdx - idx));
   };
 

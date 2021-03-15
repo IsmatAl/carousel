@@ -112,11 +112,11 @@ const Carousel = (props) => {
         <div className='prev'
           onClick={prev}
         >
-          <img src='../../public/imgs/arrow_back.png' draggable={false} />
+          <img src='../../public/imgs/arrow.png' draggable={false} />
         </div>
         {slides}
         <div className='next' onClick={next}>
-          <img src='../../public/imgs/arrow_forward.png' draggable={false} />
+          <img src='../../public/imgs/arrow.png' draggable={false} />
         </div>
       </div>
     }
